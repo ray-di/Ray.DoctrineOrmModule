@@ -1,0 +1,29 @@
+{
+    "name": "ray/doctrine-orm-module",
+    "description": "doctrine/orm module for Ray.Di",
+    "keywords": [
+        "Ray.Di",
+        "Doctrine ORM"
+    ],
+    "type": "library",
+    "require": {
+        "php": ">=5.5",
+        "ray/di": "~2.2",
+        "doctrine/orm": "~2.5"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~4.8",
+        "squizlabs/php_codesniffer": "~2.5",
+        "phpmd/phpmd": "~2.3",
+        "fabpot/php-cs-fixer": "~1.11"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Yuu Kawanami",
+            "email": "yuu.kawanami@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
