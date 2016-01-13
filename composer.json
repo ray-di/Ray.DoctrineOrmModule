@@ -25,5 +25,15 @@
         }
     ],
     "minimum-stability": "dev",
-    "prefer-stable": true
+    "prefer-stable": true,
+    "autoload": {
+        "psr-4": {
+            "Ray\\DoctrineOrmModule\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Ray\\DoctrineOrmModule\\": "tests/"
+        }
+    }
 }
