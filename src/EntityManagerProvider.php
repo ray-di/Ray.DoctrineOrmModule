@@ -35,7 +35,7 @@ class EntityManagerProvider implements ProviderInterface
     {
         list($this->params, $this->paths) = $config;
     }
-    
+
     /**
      * {@inheritdoc}
      *
@@ -44,6 +44,7 @@ class EntityManagerProvider implements ProviderInterface
     public function get()
     {
         $config = Setup::createAnnotationMetadataConfiguration($this->paths, true);
+
         return EntityManager::create($this->params, $config);
     }
 }

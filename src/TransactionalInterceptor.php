@@ -25,10 +25,11 @@ class TransactionalInterceptor implements MethodInterceptor
         try {
             $result = $invocation->proceed();
             $this->entityManager->commit();
-            return $result;
         } catch (\Exception $e) {
             $this->entityManager->rollback();
             throw new RollbackException($e, 0, $e);
         }
+
+        return $result;
     }
 }

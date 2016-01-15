@@ -17,12 +17,14 @@ class EntityManagerProviderTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @param EntityManagerInterface $entityManager EntityManager
-     * @param string $entityClass entity class name with namespace
+     * @param string                 $entityClass   entity class name with namespace
+     *
      * @return bool true if entity class is loaded
      */
     private function isEntityClassLoaded(EntityManagerInterface $entityManager, $entityClass)
     {
         $entityManager->getMetadataFactory()->getAllMetadata();
+
         return in_array($entityClass, get_declared_classes());
     }
 }

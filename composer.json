@@ -38,5 +38,13 @@
                 "tests/Fake/"
             ]
         }
+    },
+    "scripts": {
+        "test": [
+            "php vendor/bin/phpmd src text ./phpmd.xml",
+            "php vendor/bin/phpcs",
+            "php vendor/bin/phpunit"
+        ],
+        "cs-fix": "php vendor/fabpot/php-cs-fixer/php-cs-fixer fix . -v"
     }
 }
