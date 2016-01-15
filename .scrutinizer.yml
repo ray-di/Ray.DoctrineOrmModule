@@ -1,7 +1,7 @@
 filter:
   paths: ["src/*"]
 tools:
-    external_code_coverage: true
+  external_code_coverage: true
   php_code_coverage:
     timeout: 1200
   php_sim: true
