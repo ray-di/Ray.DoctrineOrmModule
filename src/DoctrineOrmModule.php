@@ -34,5 +34,6 @@ class DoctrineOrmModule extends AbstractModule
     protected function configure()
     {
         $this->bind(EntityManagerInterface::class)->toProvider(DoctrineOrmProvider::class)->in(Scope::SINGLETON);
+        $this->install(new TransactionalModule);
     }
 }
