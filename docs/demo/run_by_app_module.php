@@ -5,7 +5,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Ray\Di\AbstractModule;
 use Ray\Di\Injector;
 use Ray\DoctrineOrmModule\DoctrineOrmModule;
-use Ray\DoctrineOrmModule\EntityManagerInject;
+use Ray\DoctrineOrmModule\Inject\EntityManagerInject;
 
 $loader = require dirname(dirname(__DIR__)) . '/vendor/autoload.php';
 /* @var $loader \Composer\Autoload\ClassLoader */
@@ -25,7 +25,7 @@ class AppModule extends AbstractModule
 {
     protected function configure()
     {
-        $this->install(new DoctrineOrmModule(['driver' => 'pdo_sqlite', 'memory' => true], []));
+        $this->install(new DoctrineOrmModule(['driver' => 'pdo_sqlite', 'memory' => true], ['/path/to/entity/']));
     }
 }
 
