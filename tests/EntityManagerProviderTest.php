@@ -3,25 +3,16 @@
 namespace Ray\DoctrineOrmModule;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Ray\Compiler\DiCompiler;
-use Ray\Di\Injector;
 use Ray\DoctrineOrmModule\Entity\FakeUser;
 
-class DoctrineOrmModuleTest extends \PHPUnit_Framework_TestCase
+class EntityManagerProviderTest extends \PHPUnit_Framework_TestCase
 {
-    public function testModule()
+    public function testProvider()
     {
-        $module = new DoctrineOrmModule(['driver' => 'pdo_sqlite', 'memory' => true], [__DIR__ . '/Fake/Entity/']);
-        $instance = (new Injector($module, $_ENV['TMP_DIR']))->getInstance(EntityManagerInterface::class);
-        /* @var $instance EntityManagerInterface */
+        $module = new EntityManagerProvider([['driver' => 'pdo_sqlite', 'memory' => true], [__DIR__ . '/Fake/Entity/']]);
+        $instance = $module->get();
         $this->assertInstanceOf(EntityManagerInterface::class, $instance);
         $this->assertTrue($this->isEntityClassLoaded($instance, FakeUser::class));
-    }
-
-    public function testCompile()
-    {
-        $module = new DoctrineOrmModule(['driver' => 'pdo_sqlite', 'memory' => true], [__DIR__ . '/Fake/Entity/']);
-        (new DiCompiler($module, $_ENV['TMP_DIR']))->compile();
     }
 
     /**

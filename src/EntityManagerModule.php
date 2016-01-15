@@ -6,20 +6,13 @@
  */
 namespace Ray\DoctrineOrmModule;
 
+use Doctrine\ORM\EntityManagerInterface;
 use Ray\Di\AbstractModule;
+use Ray\Di\Scope;
+use Ray\DoctrineOrmModule\Annotation\EntityManagerConfig;
 
-class DoctrineOrmModule extends AbstractModule
+class EntityManagerModule extends AbstractModule
 {
-    /**
-     * @var array
-     */
-    private $params;
-
-    /**
-     * @var array
-     */
-    private $paths;
-
     /**
      * Constructor.
      *
@@ -28,9 +21,8 @@ class DoctrineOrmModule extends AbstractModule
      */
     public function __construct(array $params, array $paths)
     {
-        $this->params = $params;
-        $this->paths = $paths;
         parent::__construct();
+        $this->bind()->annotatedWith(EntityManagerConfig::class)->toInstance([$params, $paths]);
     }
 
     /**
@@ -38,7 +30,6 @@ class DoctrineOrmModule extends AbstractModule
      */
     protected function configure()
     {
-        $this->install(new EntityManagerModule($this->params, $this->paths));
-        $this->install(new TransactionalModule);
+        $this->bind(EntityManagerInterface::class)->toProvider(EntityManagerProvider::class)->in(Scope::SINGLETON);
     }
 }

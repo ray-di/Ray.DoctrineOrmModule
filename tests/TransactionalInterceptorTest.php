@@ -26,11 +26,12 @@ class TransactionalInterceptorTest extends \PHPUnit_Framework_TestCase
     public function testTxCommit()
     {
         $object = $this->injector->getInstance(FakeService::class);
+        $interceptor = $this->injector->getInstance(TransactionalInterceptor::class);
         $invocation = new ReflectiveMethodInvocation(
             $object,
             new \ReflectionMethod($object, 'returnIsInTransaction'),
             new Arguments([]),
-            [new TransactionalInterceptor]
+            [$interceptor]
         );
 
         $wasInTransaction = $invocation->proceed();
@@ -40,11 +41,12 @@ class TransactionalInterceptorTest extends \PHPUnit_Framework_TestCase
     public function testTxRollback()
     {
         $object = $this->injector->getInstance(FakeService::class);
+        $interceptor = $this->injector->getInstance(TransactionalInterceptor::class);
         $invocation = new ReflectiveMethodInvocation(
             $object,
             new \ReflectionMethod($object, 'throwFakeException'),
             new Arguments([]),
-            [new TransactionalInterceptor]
+            [$interceptor]
         );
 
         $this->setExpectedException(RollbackException::class);

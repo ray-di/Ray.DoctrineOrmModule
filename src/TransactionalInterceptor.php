@@ -6,31 +6,28 @@
  */
 namespace Ray\DoctrineOrmModule;
 
-use Doctrine\ORM\EntityManagerInterface;
 use Ray\Aop\MethodInterceptor;
 use Ray\Aop\MethodInvocation;
 use Ray\DoctrineOrmModule\Exception\RollbackException;
+use Ray\DoctrineOrmModule\Inject\EntityManagerInject;
 
 class TransactionalInterceptor implements MethodInterceptor
 {
+    use EntityManagerInject;
+
     /**
      * {@inheritdoc}
      */
     public function invoke(MethodInvocation $invocation)
     {
-        $object = $invocation->getThis();
-        $ref = new \ReflectionProperty($object, "entityManager");
-        $ref->setAccessible(true);
-        $entityManager = $ref->getValue($object);
-        /* @var $entityManager EntityManagerInterface */
+        $this->entityManager->beginTransaction();
 
-        $entityManager->beginTransaction();
         try {
             $result = $invocation->proceed();
-            $entityManager->commit();
+            $this->entityManager->commit();
             return $result;
         } catch (\Exception $e) {
-            $entityManager->rollback();
+            $this->entityManager->rollback();
             throw new RollbackException($e, 0, $e);
         }
     }

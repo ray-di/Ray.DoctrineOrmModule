@@ -16,8 +16,9 @@
         <whitelist>
             <directory suffix=".php">src</directory>
             <exclude>
-                <file>src/DoctrineAnnotations.php</file>
-                <file>src/EntityManagerInject.php</file>
+                <directory suffix=".php">src/Annotation</directory>
+                <directory suffix=".php">src/Exception</directory>
+                <directory suffix=".php">src/Inject</directory>
             </exclude>
         </whitelist>
     </filter>

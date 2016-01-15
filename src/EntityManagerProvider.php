@@ -10,9 +10,9 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Tools\Setup;
 use Ray\Di\ProviderInterface;
-use Ray\DoctrineOrmModule\Annotation\DoctrineOrmConfig;
+use Ray\DoctrineOrmModule\Annotation\EntityManagerConfig;
 
-class DoctrineOrmProvider implements ProviderInterface
+class EntityManagerProvider implements ProviderInterface
 {
     /**
      * @var array
@@ -29,7 +29,7 @@ class DoctrineOrmProvider implements ProviderInterface
      *
      * @param array $config
      *
-     * @DoctrineOrmConfig
+     * @EntityManagerConfig
      */
     public function __construct(array $config)
     {

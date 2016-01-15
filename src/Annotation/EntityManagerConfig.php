@@ -13,7 +13,7 @@ use Ray\Di\Di\Qualifier;
  * @Target("METHOD")
  * @Qualifier
  */
-final class DoctrineOrmConfig
+final class EntityManagerConfig
 {
     public $value;
 }
