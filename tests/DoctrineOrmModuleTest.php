@@ -3,9 +3,9 @@
 namespace Ray\DoctrineOrmModule;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Mapping\ClassMetadata;
 use Ray\Compiler\DiCompiler;
 use Ray\Di\Injector;
+use Ray\DoctrineOrmModule\Entity\FakeUser;
 
 class DoctrineOrmModuleTest extends \PHPUnit_Framework_TestCase
 {
@@ -15,16 +15,23 @@ class DoctrineOrmModuleTest extends \PHPUnit_Framework_TestCase
         $instance = (new Injector($module, $_ENV['TMP_DIR']))->getInstance(EntityManagerInterface::class);
         /* @var $instance EntityManagerInterface */
         $this->assertInstanceOf(EntityManagerInterface::class, $instance);
-
-        $allMetadata = $instance->getMetadataFactory()->getAllMetadata();
-        /* @var $allMetadata ClassMetadata[] */
-        $this->assertCount(1, $allMetadata);
-        $this->assertEquals('Ray\DoctrineOrmModule\Entity\FakeUser', $allMetadata[0]->getName());
+        $this->assertTrue($this->isEntityClassLoaded($instance, FakeUser::class));
     }
 
     public function testCompile()
     {
-        $module = new DoctrineOrmModule(['driver' => 'pdo_sqlite', 'memory' => true], []);
+        $module = new DoctrineOrmModule(['driver' => 'pdo_sqlite', 'memory' => true], [__DIR__ . '/Fake/Entity/']);
         (new DiCompiler($module, $_ENV['TMP_DIR']))->compile();
+    }
+
+    /**
+     * @param EntityManagerInterface $entityManager EntityManager
+     * @param string $entityClass entity class name with namespace
+     * @return bool true if entity class is loaded
+     */
+    private function isEntityClassLoaded(EntityManagerInterface $entityManager, $entityClass)
+    {
+        $entityManager->getMetadataFactory()->getAllMetadata();
+        return in_array($entityClass, get_declared_classes());
     }
 }

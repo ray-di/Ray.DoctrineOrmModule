@@ -3,7 +3,7 @@
 namespace Ray\DoctrineOrmModule;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Mapping\ClassMetadata;
+use Ray\DoctrineOrmModule\Entity\FakeUser;
 
 class DoctrineOrmProviderTest extends \PHPUnit_Framework_TestCase
 {
@@ -12,10 +12,17 @@ class DoctrineOrmProviderTest extends \PHPUnit_Framework_TestCase
         $module = new DoctrineOrmProvider([['driver' => 'pdo_sqlite', 'memory' => true], [__DIR__ . '/Fake/Entity/']]);
         $instance = $module->get();
         $this->assertInstanceOf(EntityManagerInterface::class, $instance);
+        $this->assertTrue($this->isEntityClassLoaded($instance, FakeUser::class));
+    }
 
-        $allMetadata = $instance->getMetadataFactory()->getAllMetadata();
-        /* @var $allMetadata ClassMetadata[] */
-        $this->assertCount(1, $allMetadata);
-        $this->assertEquals('Ray\DoctrineOrmModule\Entity\FakeUser', $allMetadata[0]->getName());
+    /**
+     * @param EntityManagerInterface $entityManager EntityManager
+     * @param string $entityClass entity class name with namespace
+     * @return bool true if entity class is loaded
+     */
+    private function isEntityClassLoaded(EntityManagerInterface $entityManager, $entityClass)
+    {
+        $entityManager->getMetadataFactory()->getAllMetadata();
+        return in_array($entityClass, get_declared_classes());
     }
 }
