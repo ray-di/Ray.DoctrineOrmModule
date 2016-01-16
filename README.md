@@ -1,8 +1,8 @@
 # Ray.DoctrineOrmModule
 
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/kawanamiyuu/Ray.DoctrineOrmModule/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/kawanamiyuu/Ray.DoctrineOrmModule/?branch=master)
-[![Code Coverage](https://scrutinizer-ci.com/g/kawanamiyuu/Ray.DoctrineOrmModule/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/kawanamiyuu/Ray.DoctrineOrmModule/?branch=master)
-[![Build Status](https://travis-ci.org/kawanamiyuu/Ray.DoctrineOrmModule.svg?branch=master)](https://travis-ci.org/kawanamiyuu/Ray.DoctrineOrmModule)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/kawanamiyuu/Ray.DoctrineOrmModule/badges/quality-score.png?b=1.x)](https://scrutinizer-ci.com/g/kawanamiyuu/Ray.DoctrineOrmModule/?branch=1.x)
+[![Code Coverage](https://scrutinizer-ci.com/g/kawanamiyuu/Ray.DoctrineOrmModule/badges/coverage.png?b=1.x)](https://scrutinizer-ci.com/g/kawanamiyuu/Ray.DoctrineOrmModule/?branch=1.x)
+[![Build Status](https://travis-ci.org/kawanamiyuu/Ray.DoctrineOrmModule.svg?branch=1.x)](https://travis-ci.org/kawanamiyuu/Ray.DoctrineOrmModule)
 
 A [Doctrine ORM](https://github.com/doctrine/doctrine2) Module for [Ray.Di](https://github.com/ray-di/Ray.Di)
 
@@ -52,7 +52,7 @@ Learn more about [the database connection configuration](http://docs.doctrine-pr
 
 ### DI trait
 
- * [EntityManagerInject](https://github.com/kawanamiyuu/Ray.DoctrineOrmModule/blob/master/src/Inject/EntityManagerInject.php) for `Doctrine\ORM\EntityManagerInterface` interface
+ * [EntityManagerInject](https://github.com/kawanamiyuu/Ray.DoctrineOrmModule/blob/1.x/src/Inject/EntityManagerInject.php) for `Doctrine\ORM\EntityManagerInterface` interface
 
 ### Transaction management
 
