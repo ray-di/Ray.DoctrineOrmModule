@@ -16,8 +16,6 @@ $ composer require ray/doctrine-orm-module
 
 ### Module install
 
-Learn more about [the database connection configuration](http://docs.doctrine-project.org/projects/doctrine-dbal/en/latest/reference/configuration.html).
-
 ```php
 use Ray\Di\AbstractModule;
 use Ray\DoctrineOrmModule\DoctrineOrmModule;
@@ -49,6 +47,8 @@ class AppModule extends AbstractModule
     }
 }
 ```
+
+Learn more about [the database connection configuration](http://docs.doctrine-project.org/projects/doctrine-dbal/en/latest/reference/configuration.html).
 
 ### DI trait
 
