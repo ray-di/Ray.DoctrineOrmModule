@@ -20,8 +20,7 @@ class Fake
     }
 }
 
+$fake = (new Injector(new DoctrineOrmModule(['driver' => 'pdo_sqlite', 'memory' => true], ['/path/to/Entity/'])))->getInstance(Fake::class);
 /* @var $fake Fake */
-$fake = (new Injector(new DoctrineOrmModule(['driver' => 'pdo_sqlite', 'memory' => true], ['/path/to/entity/'])))->getInstance(Fake::class);
-
 $works = ($fake->foo() instanceof EntityManagerInterface);
 echo($works ? 'It works!' : 'It DOES NOT work!') . PHP_EOL;

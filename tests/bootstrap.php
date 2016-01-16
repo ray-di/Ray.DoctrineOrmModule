@@ -10,9 +10,8 @@ $_ENV['TMP_DIR'] = __DIR__ . '/tmp';
 
 register_shutdown_function(function () {
     foreach (new \RecursiveDirectoryIterator($_ENV['TMP_DIR'], \FilesystemIterator::SKIP_DOTS) as $file) {
-        if ($file->getFilename() === '.placefolder') {
-            continue;
+        if ($file->getFilename() !== '.placefolder') {
+            @unlink($file);
         }
-        unlink($file);
     }
 });
