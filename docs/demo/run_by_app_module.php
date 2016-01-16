@@ -25,12 +25,11 @@ class AppModule extends AbstractModule
 {
     protected function configure()
     {
-        $this->install(new DoctrineOrmModule(['driver' => 'pdo_sqlite', 'memory' => true], ['/path/to/entity/']));
+        $this->install(new DoctrineOrmModule(['driver' => 'pdo_sqlite', 'memory' => true], ['/path/to/Entity/']));
     }
 }
 
-/* @var $fake Fake */
 $fake = (new Injector(new AppModule))->getInstance(Fake::class);
-
+/* @var $fake Fake */
 $works = ($fake->foo() instanceof EntityManagerInterface);
 echo($works ? 'It works!' : 'It DOES NOT work!') . PHP_EOL;
