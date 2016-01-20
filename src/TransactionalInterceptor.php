@@ -20,13 +20,13 @@ class TransactionalInterceptor implements MethodInterceptor
      */
     public function invoke(MethodInvocation $invocation)
     {
-        $this->entityManager->beginTransaction();
+        $result = null;
 
         try {
-            $result = $invocation->proceed();
-            $this->entityManager->commit();
+            $this->entityManager->transactional(function () use ($invocation, &$result) {
+                $result = $invocation->proceed();
+            });
         } catch (\Exception $e) {
-            $this->entityManager->rollback();
             throw new RollbackException($e, 0, $e);
         }
 
