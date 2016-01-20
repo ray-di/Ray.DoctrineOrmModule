@@ -43,7 +43,7 @@ class EntityManagerProvider implements ProviderInterface
      */
     public function get()
     {
-        $config = Setup::createAnnotationMetadataConfiguration($this->paths, true);
+        $config = Setup::createAnnotationMetadataConfiguration($this->paths);
 
         return EntityManager::create($this->params, $config);
     }
