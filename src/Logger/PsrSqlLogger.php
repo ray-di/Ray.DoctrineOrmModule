@@ -17,6 +17,21 @@ class PsrSqlLogger implements SQLLogger
     private $logger;
 
     /**
+     * @var string
+     */
+    private $sql;
+
+    /**
+     * @var array
+     */
+    private $params;
+
+    /**
+     * @var array
+     */
+    private $types;
+
+    /**
      * @var float
      */
     private $start;
@@ -36,7 +51,20 @@ class PsrSqlLogger implements SQLLogger
      */
     public function startQuery($sql, array $params = null, array $types = null)
     {
-        $this->logger->debug($sql, ['params' => $params, 'types' => $types]);
+        $sql = trim($sql, '"');
+        $params = $params ?: [];
+        $types = $types ?: [];
+
+        $this->logger->debug('start  query', [
+            'sql' => $sql,
+            'params' => $params,
+            'types' => $types
+        ]);
+
+        $this->sql = $sql;
+        $this->params = $params;
+        $this->types = $types;
+
         $this->start = microtime(true);
     }
 
@@ -46,6 +74,12 @@ class PsrSqlLogger implements SQLLogger
     public function stopQuery()
     {
         $time = round(microtime(true) - $this->start, 3);
-        $this->logger->debug('query execution time: ' . $time . 's');
+
+        $this->logger->debug('finish query', [
+            'sql' => $this->sql,
+            'params' => $this->params,
+            'types' => $this->types,
+            'time' => $time
+        ]);
     }
 }
