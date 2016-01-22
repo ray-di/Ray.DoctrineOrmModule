@@ -50,11 +50,11 @@ class AppModule extends AbstractModule
 
 Learn more about [the database connection configuration](http://docs.doctrine-project.org/projects/doctrine-dbal/en/latest/reference/configuration.html).
 
-### DI trait
+## DI trait
 
  * [EntityManagerInject](https://github.com/kawanamiyuu/Ray.DoctrineOrmModule/blob/1.x/src/Inject/EntityManagerInject.php) for `Doctrine\ORM\EntityManagerInterface` interface
 
-### Transaction management
+## Transaction management
 
 Any method in the class marked with `@Transactional` is executed in a transaction.
 
@@ -106,6 +106,28 @@ class UserService
     {
         // transaction is not active
         $this->entityManager->...;
+    }
+}
+```
+
+## Logging queries
+
+If you want to log queries, you additionally need to bind `Psr\Log\LoggerInterface` and install `SqlLoggerModule`.
+
+```php
+use Monolog\Logger;
+use Psr\Log\LoggerInterface;
+use Ray\Di\AbstractModule;
+use Ray\DoctrineOrmModule\DoctrineOrmModule;
+
+class AppModule extends AbstractModule
+{
+    protected function configure()
+    {
+        $this->install(new DoctrineOrmModule($params, $paths));
+
+        $this->bind(LoggerInterface::class)->toInstance(new Logger('myapp'));
+        $this->install(new SqlLoggerModule);
     }
 }
 ```
