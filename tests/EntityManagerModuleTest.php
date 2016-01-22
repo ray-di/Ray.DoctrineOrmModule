@@ -2,6 +2,7 @@
 
 namespace Ray\DoctrineOrmModule;
 
+use Doctrine\DBAL\Logging\SQLLogger;
 use Doctrine\ORM\EntityManagerInterface;
 use Ray\Compiler\DiCompiler;
 use Ray\Di\Injector;
@@ -9,28 +10,36 @@ use Ray\DoctrineOrmModule\Entity\FakeUser;
 
 class EntityManagerModuleTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @var EntityManagerModule
-     */
-    private $module;
-
-    public function setUp()
-    {
-        parent::setUp();
-        $this->module = new EntityManagerModule(['driver' => 'pdo_sqlite', 'memory' => true], [__DIR__ . '/Fake/Entity/']);
-    }
-
     public function testModule()
     {
-        $instance = (new Injector($this->module, $_ENV['TMP_DIR']))->getInstance(EntityManagerInterface::class);
+        $instance = (new Injector(new FakeAppModule, $_ENV['TMP_DIR']))->getInstance(EntityManagerInterface::class);
         /* @var $instance EntityManagerInterface */
+
         $this->assertInstanceOf(EntityManagerInterface::class, $instance);
         $this->assertTrue($this->isEntityClassLoaded($instance, FakeUser::class));
+
+        $this->assertNull($instance->getConfiguration()->getSQLLogger());
     }
 
     public function testCompile()
     {
-        (new DiCompiler($this->module, $_ENV['TMP_DIR']))->compile();
+        (new DiCompiler(new FakeAppModule, $_ENV['TMP_DIR']))->compile();
+    }
+
+    public function testModuleWithLogger()
+    {
+        $instance = (new Injector(new FakeLoggableAppModule, $_ENV['TMP_DIR']))->getInstance(EntityManagerInterface::class);
+        /* @var $instance EntityManagerInterface */
+
+        $this->assertInstanceOf(EntityManagerInterface::class, $instance);
+        $this->assertTrue($this->isEntityClassLoaded($instance, FakeUser::class));
+
+        $this->assertInstanceOf(SQLLogger::class, $instance->getConfiguration()->getSQLLogger());
+    }
+
+    public function testCompileWithLogger()
+    {
+        (new DiCompiler(new FakeLoggableAppModule, $_ENV['TMP_DIR']))->compile();
     }
 
     /**
