@@ -9,10 +9,20 @@ use Ray\DoctrineOrmModule\Entity\FakeUser;
 
 class EntityManagerModuleTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @var EntityManagerModule
+     */
+    private $module;
+
+    public function setUp()
+    {
+        parent::setUp();
+        $this->module = new EntityManagerModule(['driver' => 'pdo_sqlite', 'memory' => true], [__DIR__ . '/Fake/Entity/']);
+    }
+
     public function testModule()
     {
-        $module = new EntityManagerModule(['driver' => 'pdo_sqlite', 'memory' => true], [__DIR__ . '/Fake/Entity/']);
-        $instance = (new Injector($module, $_ENV['TMP_DIR']))->getInstance(EntityManagerInterface::class);
+        $instance = (new Injector($this->module, $_ENV['TMP_DIR']))->getInstance(EntityManagerInterface::class);
         /* @var $instance EntityManagerInterface */
         $this->assertInstanceOf(EntityManagerInterface::class, $instance);
         $this->assertTrue($this->isEntityClassLoaded($instance, FakeUser::class));
@@ -20,8 +30,7 @@ class EntityManagerModuleTest extends \PHPUnit_Framework_TestCase
 
     public function testCompile()
     {
-        $module = new EntityManagerModule(['driver' => 'pdo_sqlite', 'memory' => true], [__DIR__ . '/Fake/Entity/']);
-        (new DiCompiler($module, $_ENV['TMP_DIR']))->compile();
+        (new DiCompiler($this->module, $_ENV['TMP_DIR']))->compile();
     }
 
     /**
