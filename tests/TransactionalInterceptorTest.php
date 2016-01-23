@@ -20,7 +20,7 @@ class TransactionalInterceptorTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         parent::setUp();
-        $this->injector = new Injector(new AppModule, $_ENV['TMP_DIR']);
+        $this->injector = new Injector(new FakeAppModule, $_ENV['TMP_DIR']);
     }
 
     public function testTxCommit()

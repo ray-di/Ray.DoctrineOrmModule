@@ -9,7 +9,8 @@
     "require": {
         "php": ">=5.5",
         "ray/di": "~2.2",
-        "doctrine/orm": "~2.5"
+        "doctrine/orm": "~2.5",
+        "psr/log": "~1.0"
     },
     "require-dev": {
         "phpunit/phpunit": "~4.8",
@@ -43,7 +44,7 @@
         "test": [
             "php vendor/bin/phpmd src text ./phpmd.xml",
             "php vendor/bin/phpcs",
-            "php vendor/bin/phpunit"
+            "php vendor/bin/phpunit --coverage-text"
         ],
         "cs-fix": "php vendor/fabpot/php-cs-fixer/php-cs-fixer fix . -v"
     }

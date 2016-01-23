@@ -6,9 +6,11 @@
  */
 namespace Ray\DoctrineOrmModule;
 
+use Doctrine\DBAL\Logging\SQLLogger;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Tools\Setup;
+use Ray\Di\Di\Inject;
 use Ray\Di\ProviderInterface;
 use Ray\DoctrineOrmModule\Annotation\EntityManagerConfig;
 
@@ -25,6 +27,11 @@ class EntityManagerProvider implements ProviderInterface
     private $paths;
 
     /**
+     * @var SQLLogger
+     */
+    private $logger;
+
+    /**
      * Constructor.
      *
      * @param array $config
@@ -37,6 +44,16 @@ class EntityManagerProvider implements ProviderInterface
     }
 
     /**
+     * @param SQLLogger $logger
+     *
+     * @Inject(optional=true)
+     */
+    public function setSqlLogger(SQLLogger $logger)
+    {
+        $this->logger = $logger;
+    }
+
+    /**
      * {@inheritdoc}
      *
      * @return EntityManagerInterface
@@ -44,6 +61,7 @@ class EntityManagerProvider implements ProviderInterface
     public function get()
     {
         $config = Setup::createAnnotationMetadataConfiguration($this->paths);
+        $config->setSQLLogger($this->logger);
 
         return EntityManager::create($this->params, $config);
     }
