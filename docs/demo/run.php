@@ -3,7 +3,7 @@
 use Doctrine\Common\Annotations\AnnotationRegistry;
 use Doctrine\ORM\EntityManagerInterface;
 use Ray\Di\Injector;
-use Ray\DoctrineOrmModule\DoctrineOrmModule;
+use Ray\DoctrineOrmModule\EntityManagerModule;
 use Ray\DoctrineOrmModule\Inject\EntityManagerInject;
 
 $loader = require dirname(dirname(__DIR__)) . '/vendor/autoload.php';
@@ -20,7 +20,7 @@ class Fake
     }
 }
 
-$fake = (new Injector(new DoctrineOrmModule(['driver' => 'pdo_sqlite', 'memory' => true], ['/path/to/Entity/'])))->getInstance(Fake::class);
+$fake = (new Injector(new EntityManagerModule(['driver' => 'pdo_sqlite', 'memory' => true], ['/path/to/Entity/'])))->getInstance(Fake::class);
 /* @var $fake Fake */
 $works = ($fake->foo() instanceof EntityManagerInterface);
 echo($works ? 'It works!' : 'It DOES NOT work!') . PHP_EOL;

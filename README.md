@@ -18,7 +18,7 @@ $ composer require ray/doctrine-orm-module
 
 ```php
 use Ray\Di\AbstractModule;
-use Ray\DoctrineOrmModule\DoctrineOrmModule;
+use Ray\DoctrineOrmModule\EntityManagerModule;
 
 class AppModule extends AbstractModule
 {
@@ -35,7 +35,7 @@ class AppModule extends AbstractModule
             'dbname'   => 'myapp_db'
         ];
 
-        $this->install(new DoctrineOrmModule($params, self::ENTITY_PATHS));
+        $this->install(new EntityManagerModule($params, self::ENTITY_PATHS));
 
         //// OR ////
 
@@ -43,7 +43,7 @@ class AppModule extends AbstractModule
             'url' => 'postgresql://username:password@127.0.0.1:5432/myapp_db'
         ];
 
-        $this->install(new DoctrineOrmModule($params, self::ENTITY_PATHS));
+        $this->install(new EntityManagerModule($params, self::ENTITY_PATHS));
     }
 }
 ```
@@ -55,6 +55,24 @@ Learn more about [the database connection configuration](http://docs.doctrine-pr
  * [EntityManagerInject](https://github.com/kawanamiyuu/Ray.DoctrineOrmModule/blob/1.x/src/Inject/EntityManagerInject.php) for `Doctrine\ORM\EntityManagerInterface` interface
 
 ## Transaction management
+
+First, install `TransactionalModule`.
+
+```php
+use Ray\Di\AbstractModule;
+use Ray\DoctrineOrmModule\EntityManagerModule;
+use Ray\DoctrineOrmModule\TransactionalModule;
+
+class AppModule extends AbstractModule
+{
+    protected function configure()
+    {
+        $this->install(new EntityManagerModule($params, $paths));
+
+        $this->install(new TransactionalModule); // <--
+    }
+}
+```
 
 Any method in the class marked with `@Transactional` is executed in a transaction.
 
@@ -118,16 +136,19 @@ If you want to log queries, you additionally need to bind `Psr\Log\LoggerInterfa
 use Monolog\Logger;
 use Psr\Log\LoggerInterface;
 use Ray\Di\AbstractModule;
-use Ray\DoctrineOrmModule\DoctrineOrmModule;
+use Ray\DoctrineOrmModule\EntityManagerModule;
+use Ray\DoctrineOrmModule\SqlLoggerModule;
+use Ray\DoctrineOrmModule\TransactionalModule;
 
 class AppModule extends AbstractModule
 {
     protected function configure()
     {
-        $this->install(new DoctrineOrmModule($params, $paths));
+        $this->install(new EntityManagerModule($params, $paths));
+        $this->install(new TransactionalModule);
 
-        $this->bind(LoggerInterface::class)->toInstance(new Logger('myapp'));
-        $this->install(new SqlLoggerModule);
+        $this->bind(LoggerInterface::class)->toInstance(new Logger('myapp')); // <--
+        $this->install(new SqlLoggerModule); // <--
     }
 }
 ```
