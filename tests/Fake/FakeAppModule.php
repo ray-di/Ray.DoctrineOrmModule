@@ -8,7 +8,7 @@ class FakeAppModule extends AbstractModule
 {
     protected function configure()
     {
-        $module = new DoctrineOrmModule(['driver' => 'pdo_sqlite', 'memory' => true], [dirname(__DIR__) . '/Fake/Entity/']);
-        $this->install($module);
+        $this->install(new EntityManagerModule(['driver' => 'pdo_sqlite', 'memory' => true], [dirname(__DIR__) . '/Fake/Entity/']));
+        $this->install(new TransactionalModule);
     }
 }
