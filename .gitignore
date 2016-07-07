@@ -3,5 +3,8 @@ build/
 tmp/
 vendor/
 composer.lock
+*.iml
 
 !.placefolder
+
+.fig
