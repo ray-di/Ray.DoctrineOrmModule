@@ -2,8 +2,6 @@
 
 namespace Ray\DoctrineOrmModule;
 
-use Ray\DoctrineOrmModule\Inject\EntityManagerInject;
-
 class FakeService implements FakeServiceInterface
 {
     use EntityManagerInject;
