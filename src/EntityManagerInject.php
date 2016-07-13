@@ -4,7 +4,7 @@
  *
  * @license http://opensource.org/licenses/MIT MIT
  */
-namespace Ray\DoctrineOrmModule\Inject;
+namespace Ray\DoctrineOrmModule;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Ray\Di\Di\Inject;

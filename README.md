@@ -54,7 +54,7 @@ Learn more about [the database connection configuration](http://docs.doctrine-pr
 
 ## DI trait
 
- * [EntityManagerInject](https://github.com/kawanamiyuu/Ray.DoctrineOrmModule/blob/1.x/src/Inject/EntityManagerInject.php) for `Doctrine\ORM\EntityManagerInterface` interface
+ * [EntityManagerInject](https://github.com/kawanamiyuu/Ray.DoctrineOrmModule/blob/1.x/src/EntityManagerInject.php) for `Doctrine\ORM\EntityManagerInterface` interface
 
 ## Transaction management
 
@@ -80,7 +80,7 @@ Any method in the class marked with `@Transactional` is executed in a transactio
 
 ```php
 use Ray\DoctrineOrmModule\Annotation\Transactional;
-use Ray\DoctrineOrmModule\Inject\EntityManagerInject;
+use Ray\DoctrineOrmModule\EntityManagerInject;
 
 /**
  * @Transactional
@@ -107,7 +107,7 @@ The method marked with `@Transactional` is executed in a transaction.
 
 ```php
 use Ray\DoctrineOrmModule\Annotation\Transactional;
-use Ray\DoctrineOrmModule\Inject\EntityManagerInject;
+use Ray\DoctrineOrmModule\EntityManagerInject;
 
 class UserService
 {

@@ -9,7 +9,6 @@ namespace Ray\DoctrineOrmModule;
 use Ray\Aop\MethodInterceptor;
 use Ray\Aop\MethodInvocation;
 use Ray\DoctrineOrmModule\Exception\RollbackException;
-use Ray\DoctrineOrmModule\Inject\EntityManagerInject;
 
 class TransactionalInterceptor implements MethodInterceptor
 {

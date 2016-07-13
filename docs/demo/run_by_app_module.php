@@ -5,7 +5,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Ray\Di\AbstractModule;
 use Ray\Di\Injector;
 use Ray\DoctrineOrmModule\EntityManagerModule;
-use Ray\DoctrineOrmModule\Inject\EntityManagerInject;
+use Ray\DoctrineOrmModule\EntityManagerInject;
 
 $loader = require dirname(dirname(__DIR__)) . '/vendor/autoload.php';
 /* @var $loader \Composer\Autoload\ClassLoader */
