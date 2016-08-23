@@ -26,7 +26,7 @@ class EntityManagerProvider implements ProviderInterface
     /**
      * @var array
      */
-    private $paths;
+    private $entityDir;
 
     /**
      * @var string
@@ -47,7 +47,8 @@ class EntityManagerProvider implements ProviderInterface
      */
     public function __construct(array $config)
     {
-        list($this->params, $this->paths) = $config;
+        list($this->params, $entityDir) = $config;
+        $this->entityDir = is_array($entityDir) ? $entityDir : [$entityDir];
     }
 
     /**
@@ -78,7 +79,7 @@ class EntityManagerProvider implements ProviderInterface
      */
     public function get()
     {
-        $config = Setup::createAnnotationMetadataConfiguration($this->paths);
+        $config = Setup::createAnnotationMetadataConfiguration($this->entityDir);
         $config->setSQLLogger($this->logger);
 
         if ($this->proxyDir) {

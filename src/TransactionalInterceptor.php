@@ -26,7 +26,7 @@ class TransactionalInterceptor implements MethodInterceptor
                 $result = $invocation->proceed();
             });
         } catch (\Exception $e) {
-            throw new RollbackException($e, 0, $e);
+            throw new RollbackException('Transaction rolled back.', 0, $e);
         }
 
         return $result;

@@ -37,9 +37,7 @@ class EntityManagerProviderTest extends \PHPUnit_Framework_TestCase
 
     public function testProviderWithOptionalInject()
     {
-        $proxyDir = $_ENV['TMP_DIR'] . '/proxy';
-
-        $this->provider->setProxyDir($proxyDir);
+        $this->provider->setProxyDir($_ENV['PROXY_DIR']);
         $this->provider->setSqlLogger(new PsrSqlLogger(new FakeLogger));
         $instance = $this->provider->get();
         /* @var $instance EntityManagerInterface */
@@ -50,7 +48,7 @@ class EntityManagerProviderTest extends \PHPUnit_Framework_TestCase
         $config = $instance->getConfiguration();
 
         $this->assertInstanceOf(PsrSqlLogger::class, $config->getSQLLogger());
-        $this->assertEquals($proxyDir, $config->getProxyDir());
+        $this->assertEquals($_ENV['PROXY_DIR'], $config->getProxyDir());
         $this->assertEquals(ProxyFactory::AUTOGENERATE_FILE_NOT_EXISTS, $config->getAutoGenerateProxyClasses());
     }
 

@@ -25,7 +25,7 @@ class AppModule extends AbstractModule
 {
     protected function configure()
     {
-        $this->install(new EntityManagerModule(['driver' => 'pdo_sqlite', 'memory' => true], ['/path/to/Entity/']));
+        $this->install(new EntityManagerModule(['driver' => 'pdo_sqlite', 'memory' => true], '/path/to/Entity/'));
     }
 }
 

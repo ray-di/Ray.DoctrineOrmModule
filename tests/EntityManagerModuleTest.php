@@ -20,7 +20,7 @@ class EntityManagerModuleTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($this->isEntityClassLoaded($instance, FakeUser::class));
 
         $config = $instance->getConfiguration();
-            
+
         $this->assertNull($config->getSQLLogger());
         $this->assertEquals(sys_get_temp_dir(), $config->getProxyDir()); // proxy dir is set, but is never used
         $this->assertEquals(ProxyFactory::AUTOGENERATE_EVAL, $config->getAutoGenerateProxyClasses());
@@ -42,7 +42,7 @@ class EntityManagerModuleTest extends \PHPUnit_Framework_TestCase
         $config = $instance->getConfiguration();
 
         $this->assertInstanceOf(SQLLogger::class, $config->getSQLLogger());
-        $this->assertEquals($_ENV['TMP_DIR'] . '/proxy', $config->getProxyDir());
+        $this->assertEquals($_ENV['PROXY_DIR'], $config->getProxyDir());
         $this->assertEquals(ProxyFactory::AUTOGENERATE_FILE_NOT_EXISTS, $config->getAutoGenerateProxyClasses());
     }
 
