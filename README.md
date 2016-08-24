@@ -130,6 +130,29 @@ class UserService
 }
 ```
 
+## Generating Proxy classes (for production)
+
+Proxy classes improve the performance in a production environment.
+If you bind `ProxyDir`, proxy classes are automatically generated into the directory when they are used the first time.
+
+```php
+use Ray\Di\AbstractModule;
+use Ray\DoctrineOrmModule\Annotation\ProxyDir;
+use Ray\DoctrineOrmModule\EntityManagerModule;
+
+class AppModule extends AbstractModule
+{
+    protected function configure()
+    {
+        $this->bind()->annotatedWith(ProxyDir::class)->toInstance('/path/to/proxy'); // <--
+
+        $this->install(new EntityManagerModule($params, $paths));
+    }
+}
+```
+
+Learn more about [the Proxy Object](http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/reference/advanced-configuration.html#proxy-objects).
+
 ## Logging queries
 
 If you want to log queries, you additionally need to bind `Psr\Log\LoggerInterface` and install `SqlLoggerModule`.
