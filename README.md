@@ -24,10 +24,10 @@ use Ray\DoctrineOrmModule\EntityManagerModule;
 
 class AppModule extends AbstractModule
 {
-    const ENTITY_PATHS = ['/path/to/Entity/'];
-
     protected function configure()
     {
+        $entityDir = '/path/to/Entity/';
+
         $params = [
             'driver'   => 'pdo_pgsql',
             'user'     => 'username',
@@ -37,7 +37,7 @@ class AppModule extends AbstractModule
             'dbname'   => 'myapp_db'
         ];
 
-        $this->install(new EntityManagerModule($params, self::ENTITY_PATHS));
+        $this->install(new EntityManagerModule($params, $entityDir));
 
         //// OR ////
 
@@ -45,7 +45,7 @@ class AppModule extends AbstractModule
             'url' => 'postgresql://username:password@127.0.0.1:5432/myapp_db'
         ];
 
-        $this->install(new EntityManagerModule($params, self::ENTITY_PATHS));
+        $this->install(new EntityManagerModule($params, $entityDir));
     }
 }
 ```
@@ -69,7 +69,7 @@ class AppModule extends AbstractModule
 {
     protected function configure()
     {
-        $this->install(new EntityManagerModule($params, $paths));
+        $this->install(new EntityManagerModule($params, $entityDir));
 
         $this->install(new TransactionalModule); // <--
     }
@@ -146,7 +146,7 @@ class AppModule extends AbstractModule
     {
         $this->bind()->annotatedWith(ProxyDir::class)->toInstance('/path/to/proxy'); // <--
 
-        $this->install(new EntityManagerModule($params, $paths));
+        $this->install(new EntityManagerModule($params, $entityDir));
     }
 }
 ```
@@ -169,7 +169,7 @@ class AppModule extends AbstractModule
 {
     protected function configure()
     {
-        $this->install(new EntityManagerModule($params, $paths));
+        $this->install(new EntityManagerModule($params, $entityDir));
         $this->install(new TransactionalModule);
 
         $this->bind(LoggerInterface::class)->toInstance(new Logger('myapp')); // <--
