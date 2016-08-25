@@ -24,10 +24,10 @@ use Ray\DoctrineOrmModule\EntityManagerModule;
 
 class AppModule extends AbstractModule
 {
-    const ENTITY_PATHS = ['/path/to/Entity/'];
-
     protected function configure()
     {
+        $entityDir = '/path/to/Entity/';
+
         $params = [
             'driver'   => 'pdo_pgsql',
             'user'     => 'username',
@@ -37,7 +37,7 @@ class AppModule extends AbstractModule
             'dbname'   => 'myapp_db'
         ];
 
-        $this->install(new EntityManagerModule($params, self::ENTITY_PATHS));
+        $this->install(new EntityManagerModule($params, $entityDir));
 
         //// OR ////
 
@@ -45,7 +45,7 @@ class AppModule extends AbstractModule
             'url' => 'postgresql://username:password@127.0.0.1:5432/myapp_db'
         ];
 
-        $this->install(new EntityManagerModule($params, self::ENTITY_PATHS));
+        $this->install(new EntityManagerModule($params, $entityDir));
     }
 }
 ```
@@ -69,7 +69,7 @@ class AppModule extends AbstractModule
 {
     protected function configure()
     {
-        $this->install(new EntityManagerModule($params, $paths));
+        $this->install(new EntityManagerModule($params, $entityDir));
 
         $this->install(new TransactionalModule); // <--
     }
@@ -130,6 +130,29 @@ class UserService
 }
 ```
 
+## Generating Proxy classes (for production)
+
+Proxy classes improve the performance in a production environment.
+If you bind `ProxyDir`, proxy classes are automatically generated into the directory when they are used the first time.
+
+```php
+use Ray\Di\AbstractModule;
+use Ray\DoctrineOrmModule\Annotation\ProxyDir;
+use Ray\DoctrineOrmModule\EntityManagerModule;
+
+class AppModule extends AbstractModule
+{
+    protected function configure()
+    {
+        $this->bind()->annotatedWith(ProxyDir::class)->toInstance('/path/to/proxy'); // <--
+
+        $this->install(new EntityManagerModule($params, $entityDir));
+    }
+}
+```
+
+Learn more about [the Proxy Object](http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/reference/advanced-configuration.html#proxy-objects).
+
 ## Logging queries
 
 If you want to log queries, you additionally need to bind `Psr\Log\LoggerInterface` and install `SqlLoggerModule`.
@@ -146,7 +169,7 @@ class AppModule extends AbstractModule
 {
     protected function configure()
     {
-        $this->install(new EntityManagerModule($params, $paths));
+        $this->install(new EntityManagerModule($params, $entityDir));
         $this->install(new TransactionalModule);
 
         $this->bind(LoggerInterface::class)->toInstance(new Logger('myapp')); // <--

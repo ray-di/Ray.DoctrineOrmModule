@@ -16,13 +16,13 @@ class EntityManagerModule extends AbstractModule
     /**
      * Constructor.
      *
-     * @param array $params
-     * @param array $paths
+     * @param array        $params
+     * @param array|string $entityDir
      */
-    public function __construct(array $params, array $paths)
+    public function __construct(array $params, $entityDir)
     {
         parent::__construct();
-        $this->bind()->annotatedWith(EntityManagerConfig::class)->toInstance([$params, $paths]);
+        $this->bind()->annotatedWith(EntityManagerConfig::class)->toInstance([$params, $entityDir]);
     }
 
     /**

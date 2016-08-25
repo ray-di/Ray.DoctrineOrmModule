@@ -3,6 +3,7 @@
 namespace Ray\DoctrineOrmModule;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Proxy\ProxyFactory;
 use Ray\DoctrineOrmModule\Entity\FakeUser;
 use Ray\DoctrineOrmModule\Logger\PsrSqlLogger;
 
@@ -27,11 +28,16 @@ class EntityManagerProviderTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf(EntityManagerInterface::class, $instance);
         $this->assertTrue($this->isEntityClassLoaded($instance, FakeUser::class));
 
-        $this->assertNull($instance->getConfiguration()->getSQLLogger());
+        $config = $instance->getConfiguration();
+
+        $this->assertNull($config->getSQLLogger());
+        $this->assertEquals(sys_get_temp_dir(), $config->getProxyDir()); // proxy dir is set, but is never used
+        $this->assertEquals(ProxyFactory::AUTOGENERATE_EVAL, $config->getAutoGenerateProxyClasses());
     }
 
-    public function testProviderWithLogger()
+    public function testProviderWithOptionalInject()
     {
+        $this->provider->setProxyDir($_ENV['PROXY_DIR']);
         $this->provider->setSqlLogger(new PsrSqlLogger(new FakeLogger));
         $instance = $this->provider->get();
         /* @var $instance EntityManagerInterface */
@@ -39,7 +45,11 @@ class EntityManagerProviderTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf(EntityManagerInterface::class, $instance);
         $this->assertTrue($this->isEntityClassLoaded($instance, FakeUser::class));
 
-        $this->assertInstanceOf(PsrSqlLogger::class, $instance->getConfiguration()->getSQLLogger());
+        $config = $instance->getConfiguration();
+
+        $this->assertInstanceOf(PsrSqlLogger::class, $config->getSQLLogger());
+        $this->assertEquals($_ENV['PROXY_DIR'], $config->getProxyDir());
+        $this->assertEquals(ProxyFactory::AUTOGENERATE_FILE_NOT_EXISTS, $config->getAutoGenerateProxyClasses());
     }
 
     /**

@@ -7,6 +7,7 @@ $loader = require dirname(__DIR__) . '/vendor/autoload.php';
 AnnotationRegistry::registerLoader([$loader, 'loadClass']);
 
 $_ENV['TMP_DIR'] = __DIR__ . '/tmp';
+$_ENV['PROXY_DIR'] = __DIR__ . '/tmp/proxy';
 
 register_shutdown_function(function () {
     foreach (new \RecursiveDirectoryIterator($_ENV['TMP_DIR'], \FilesystemIterator::SKIP_DOTS) as $file) {
