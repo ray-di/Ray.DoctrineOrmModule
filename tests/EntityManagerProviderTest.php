@@ -62,10 +62,10 @@ class EntityManagerProviderTest extends \PHPUnit_Framework_TestCase
         $entityManager->persist($user);
         $entityManager->flush();
 
-        $user = $entityManager->find(FakeUser::class, 1);
-        /* @var $user FakeUser */
+        $result = $entityManager->find(FakeUser::class, 1);
+        /* @var $result FakeUser */
 
-        $this->assertEquals('John', $user->name);
+        $this->assertEquals('John', $result->name);
     }
 
     /**
