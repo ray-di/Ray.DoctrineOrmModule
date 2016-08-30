@@ -79,7 +79,7 @@ class EntityManagerProvider implements ProviderInterface
      */
     public function get()
     {
-        $config = Setup::createAnnotationMetadataConfiguration($this->entityDir);
+        $config = Setup::createAnnotationMetadataConfiguration($this->entityDir, false, null, null, false);
         $config->setSQLLogger($this->logger);
 
         if ($this->proxyDir) {
