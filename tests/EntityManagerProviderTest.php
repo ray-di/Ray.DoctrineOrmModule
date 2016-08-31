@@ -52,6 +52,22 @@ class EntityManagerProviderTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(ProxyFactory::AUTOGENERATE_FILE_NOT_EXISTS, $config->getAutoGenerateProxyClasses());
     }
 
+    public function testMappingEntity()
+    {
+        $entityManager = $this->provider->get();
+        $entityManager->getConnection()->exec('create table user (id integer not null primary key, name text)');
+
+        $user = new FakeUser();
+        $user->name = 'John';
+        $entityManager->persist($user);
+        $entityManager->flush();
+
+        $result = $entityManager->find(FakeUser::class, 1);
+        /* @var $result FakeUser */
+
+        $this->assertEquals('John', $result->name);
+    }
+
     /**
      * @param EntityManagerInterface $entityManager EntityManager
      * @param string                 $entityClass   entity class name with namespace
